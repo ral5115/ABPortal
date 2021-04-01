@@ -1,0 +1,290 @@
+﻿
+@model Dominio.Modelos.ModeloCompania
+@using System.Data
+@using Newtonsoft.Json;
+
+@{
+    DataSet DatosImportantes = JsonConvert.DeserializeObject<DataSet>(Session["DatosImportantes"].ToString());
+    string Fondo = DatosImportantes.Tables[0].Rows[0]["EP_ColorFondoCentral"].ToString();
+
+    if (DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() != string.Empty)
+    {
+        Fondo = "background-image:url('" + DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() + "'); background-size: cover";
+    }
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="main-panel">
+            <div class="content">
+                <div class="card">
+                    <div class="card-body" style="@Fondo">
+                        <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+                            @Html.HiddenFor(model => model.RowId)
+                            @Html.HiddenFor(model => model.DC_Nit)
+                            @Html.HiddenFor(model => model.DC_RazonSocial)
+                            @Html.HiddenFor(model => model.DC_NombreUsuario)
+                            @Html.HiddenFor(model => model.DC_Direccion)
+                            @Html.HiddenFor(model => model.DC_Telefono)
+                            @Html.HiddenFor(model => model.DC_Correo)
+                            @Html.HiddenFor(model => model.DC_FechaCreacion)
+                            @Html.HiddenFor(model => model.Pagina_Inicial)
+                            <div class="tab-pane fade show active" id="Crear-Compania" role="tabpanel" aria-labelledby="pills-home-tab-icon">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="card-title">Actualizar Compañia</div>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <a style="color:red; font-weight:800">DATOS GENERALES</a>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Nit</label>
+                                                        @Html.EditorFor(model => model.DC_Nit, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Nit" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Razon Social</label>
+                                                        @Html.EditorFor(model => model.DC_RazonSocial, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Razón Social" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Nombre Usuario</label>
+                                                        @Html.EditorFor(model => model.DC_NombreUsuario, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Nombre Usuario" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Dirección</label>
+                                                        @Html.EditorFor(model => model.DC_Direccion, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Dirección" }, })
+                                                    </div>
+                                                </div>
+                                                <br />
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Teléfono</label>
+                                                        @Html.EditorFor(model => model.DC_Telefono, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Teléfono" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Correo</label>
+                                                        @Html.EditorFor(model => model.DC_Correo, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Correo" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Fecha Creación</label>
+                                                        @Html.EditorFor(model => model.DC_FechaCreacion, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Fecha Creacion" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Pagina Inicial</label>
+                                                        @Html.EditorFor(model => model.Pagina_Inicial, new { htmlAttributes = new { @class = "form-control", required = "required", disabled = "disabled", @PlaceHolder = "Ingresar Pagina Inicial" }, })
+                                                    </div>
+                                                </div>
+                                                <br />
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Texto Login</label>
+                                                        @Html.EditorFor(model => model.EL_TextoLogin, new { htmlAttributes = new { @class = "form-control", required = "required", @PlaceHolder = "Ingresar Texto Login" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Texto Empresa</label>
+                                                        @Html.EditorFor(model => model.EP_TextoEmpresa, new { htmlAttributes = new { @class = "form-control", required = "required", @PlaceHolder = "Ingresar Texto Empresa" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>URL Fondo Login</label>
+                                                        @Html.EditorFor(model => model.EL_UrlFondo, new { htmlAttributes = new { @class = "form-control", @PlaceHolder = "Ingresar Url Fondo Login" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>URL Fondo Interno</label>
+                                                        @Html.EditorFor(model => model.EP_UrlFondo, new { htmlAttributes = new { @class = "form-control", @PlaceHolder = "Ingresar Url Fondo Interno" }, })
+                                                    </div>
+                                                </div>
+                                                <br />  <br />
+
+                                                <a style="color:red; font-weight:800">ESTILOS LOGIN</a>
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label>Fondo Principal</label><br />
+                                                        @Html.TextBoxFor(model => model.EL_FondoPantallaLogin, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Fondo Secundario</label><br />
+                                                        @Html.TextBoxFor(model => model.EL_FondoLogin, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Texto Principal</label><br />
+                                                        @Html.TextBoxFor(model => model.EL_ColorTextoLogin, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Icono</label><br />
+                                                        @Html.TextBoxFor(model => model.EL_ColorIconoLogin, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Boton</label><br />
+                                                        @Html.TextBoxFor(model => model.EL_ColorBotonLogin, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Boton Texto</label><br />
+                                                        @Html.TextBoxFor(model => model.EL_ColorBotonTextoLogin, new { type = "color" })
+                                                    </div>
+                                                </div>
+                                                <br />  <br />
+
+                                                <a style="color:red; font-weight:800">ESTILOS PAGINA</a>
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label>Esquina Superior</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorFondoEmpresa, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Texto Empresa</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorTextoEmpresa, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Fondo Navbar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorFondoNavbar, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Fondo Siebar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorFondoSiebar, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Fondo Central</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorFondoCentral, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Fondo Administracion</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorFondoAdministracion, new { type = "color" })
+                                                    </div>
+                                                </div>
+                                                <br />
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label>Color Botones Lista</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorTextoBotones, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Boton Consultar/Eliminar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorBotonConsultar, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Boton Insertar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorBotonInsertar, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+
+                                                        <label>Boton Actualizar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorBotonActualizar, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Boton Eliminar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorBotonEliminar, new { type = "color" })
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Boton Regresar</label><br />
+                                                        @Html.TextBoxFor(model => model.EP_ColorBotonRegresar, new { type = "color" })
+                                                    </div>
+                                                </div>
+                                                <br />
+
+                                            </div>
+                                            <div class="card-action">
+                                                <input id="BtnRegistrarUsuario" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonActualizar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" type="submit" class="btn" value="Actualizar" />
+                                                <input type="button" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonRegresar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" class="btn" value="Regresar" onclick="location.href='@Url.Action("Index", "Compania")'" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="copyright ml-auto">
+                        2019, Hecho <i class="fa fa-helicopter"></i> Por <a href="http://generictransfer.com/">Interfaces Y Soluciones</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
+        <script src="~/Content/assets/js/core/popper.min.js"></script>
+        <script src="~/Content/assets/js/core/bootstrap.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script src="~/Content/assets/js/plugin/chart.js/chart.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+        <script src="~/Content/assets/js/plugin/chart-circle/circles.min.js"></script>
+        <script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+        <script src="~/Content/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+        <script src="~/Content/assets/js/atlantis.min.js"></script>
+        <script src="~/Content/assets/js/setting-demo.js"></script>
+        <script src="~/Content/assets/js/demo.js"></script>
+    </fieldset>
+
+    <script src="~/Content/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Lato:300,400,700,900"] },
+            custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../../assets/css/fonts.min.css'] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function Actualizar() {
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    RowId: RowId
+                },
+                url: "/Usuarios/Delete",
+                dataType: "json",
+                success: function (response) {
+                    swal(response, {
+                        icon: "success",
+                    }).then(function () {
+                        window.location.href = "/Usuarios/Index"
+                    });
+
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+
+        }
+
+        
+      function Proceso() {
+
+            if (document.getElementById("Cargando").style.visibility == "visible")
+                document.getElementById("Cargando").style.visibility = "hidden";
+            else
+                document.getElementById("Cargando").style.visibility = "visible";
+
+        }
+
+        window.onbeforeunload = function (e) {
+            Proceso();
+        };
+    </script>
+
+}
+

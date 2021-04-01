@@ -1,0 +1,264 @@
+/*-----------------------------------------------------------------------------------
+
+    Template Name: Appson
+    Template URI: 
+    Description: Appson || App Landing Html Template
+    Author: Rashadul Islam
+    Author URI: http://rashadulislam.com/
+    Version: 1.0
+
+-----------------------------------------------------------------------------------
+    
+    CSS INDEX
+    ===================
+  
+    1. Theme default CSS
+    2. Home Page
+        2.1 Header Area
+        2.2 Slider Area
+            2.2.1 background video
+            2.2.2 background-image
+            2.2.3 bg-gradiant
+            2.2.4 Raindrops Background
+            2.2.5 Slider
+        2.3 about-area
+        2.4 Feature Area
+        2.5 Screen Slider
+        2.6 Download Area
+        2.7 Pricing Area
+        2.8 Subscribe Area
+        2.9 Team Area
+       2.10 Achivement Area
+       2.11 Testimonial Area
+       2.12 Letest Blog
+       2.13 Map Area
+       2.14 Contact Area
+       2.15 Footer Area
+   3. Blog Details
+    
+
+-----------------------------------------------------------------------------------*/
+
+
+/*----------------------------------------*/
+/*  1. Theme default CSS
+/*----------------------------------------*/
+
+
+/*google font*/
+
+        .cCargando {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: fixed;
+    background-color: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* Internet Explorer 8*/
+    z-index: 9999;
+    transition: width 2s;
+    -moz-transition: width 2s; /* Firefox 4 */
+    -webkit-transition: width 2s; /* Safari and Chrome */
+    -o-transition: width 2s; /* Opera */
+    cursor: progress;
+}
+
+.cCargandoImg {
+    cursor: progress;
+    position: initial;
+    top: 32%;
+    right: 45%;
+    left: 35%;
+    filter: alpha(opacity=80); /* Internet Explorer 8*/
+    opacity: 0.8;
+    margin: auto;
+    width: 350px;
+    text-align: center;
+    height: 150px;
+    padding: 10px;
+    background-color: #000;
+    /*border: 1px solid #000;*/
+    color: #ffffff;
+    font-size: 2em;
+
+}
+
+.boton {
+            width: auto;
+            height: auto;
+            background-color: #353c45;
+            margin: 5px;
+            padding: 10px;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            font-size: 11px;
+            line-height: 32px;
+            text-transform: uppercase;
+            float: left;
+            color: white;
+        }
+
+            .boton:hover {
+                opacity: 0.50;
+                -moz-opacity: .50;
+                filter: alpha (opacity=50);
+            }
+
+            .boton a {
+                color: #ffffff;
+                text-decoration: none;
+                padding: 5px 5px 5px 0;
+            }
+
+        .fileContainer {
+            overflow: hidden;
+            position: relative;
+        }
+
+            .fileContainer [type=file] {
+                cursor: inherit;
+                display: block;
+                font-size: 999px;
+                filter: alpha(opacity=0);
+                min-height: 100%;
+                min-width: 100%;
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                text-align: right;
+                top: 0;
+            }
+                       .modal-body {
+    padding: 0px !important;
+}
+
+                       /*LOADER*/
+
+                       #loader {
+    bottom: 0;
+    height: 175px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 175px;
+}
+#loader {
+    bottom: 0;
+    height: 175px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 175px;
+}
+#loader .dot {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 87.5px;
+}
+#loader .dot::before {
+    border-radius: 100%;
+    content: "";
+    height: 87.5px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: scale(0);
+    width: 87.5px;
+}
+#loader .dot:nth-child(7n+1) {
+    transform: rotate(45deg);
+}
+#loader .dot:nth-child(7n+1)::before {
+    animation: 0.8s linear 0.1s normal none infinite running load;
+    background: #00ff80 none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+2) {
+    transform: rotate(90deg);
+}
+#loader .dot:nth-child(7n+2)::before {
+    animation: 0.8s linear 0.2s normal none infinite running load;
+    background: #00ffea none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+3) {
+    transform: rotate(135deg);
+}
+#loader .dot:nth-child(7n+3)::before {
+    animation: 0.8s linear 0.3s normal none infinite running load;
+    background: #00aaff none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+4) {
+    transform: rotate(180deg);
+}
+#loader .dot:nth-child(7n+4)::before {
+    animation: 0.8s linear 0.4s normal none infinite running load;
+    background: #0040ff none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+5) {
+    transform: rotate(225deg);
+}
+#loader .dot:nth-child(7n+5)::before {
+    animation: 0.8s linear 0.5s normal none infinite running load;
+    background: #2a00ff none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+6) {
+    transform: rotate(270deg);
+}
+#loader .dot:nth-child(7n+6)::before {
+    animation: 0.8s linear 0.6s normal none infinite running load;
+    background: #9500ff none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+7) {
+    transform: rotate(315deg);
+}
+#loader .dot:nth-child(7n+7)::before {
+    animation: 0.8s linear 0.7s normal none infinite running load;
+    background: magenta none repeat scroll 0 0;
+}
+#loader .dot:nth-child(7n+8) {
+    transform: rotate(360deg);
+}
+#loader .dot:nth-child(7n+8)::before {
+    animation: 0.8s linear 0.8s normal none infinite running load;
+    background: #ff0095 none repeat scroll 0 0;
+}
+#loader .lading {
+    background-image: url("../images/loading.gif");
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    bottom: -40px;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    width: 180px;
+}
+@keyframes load {
+100% {
+    opacity: 0;
+    transform: scale(1);
+}
+}
+@keyframes load {
+100% {
+    opacity: 0;
+    transform: scale(1);
+}
+}
+/*===========================
+END Blog Details
+===========================*/

@@ -1,0 +1,221 @@
+﻿@using System.Data
+@using Newtonsoft.Json;
+
+@model DataSet
+
+@{
+    DataSet DatosImportantes = JsonConvert.DeserializeObject<DataSet>(Session["DatosImportantes"].ToString());
+    string Fondo = DatosImportantes.Tables[0].Rows[0]["EP_ColorFondoCentral"].ToString();
+
+    if (DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() != string.Empty)
+    {
+        Fondo = "background-image:url('" + DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() + "'); background-size: cover";
+    }
+
+    var Contador = 0;
+    string FechaInicio = Model.Tables[1].Rows[0]["FechaInicio"].ToString();
+    string FechaFin = Model.Tables[1].Rows[0]["FechaFin"].ToString();
+}
+
+<div class="main-panel">
+    <div class="content">
+        <div class="card">
+            <div class="card-body" style="@Fondo">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form action="/ClientesPos/Reportes" method="post">
+                                <div class="card-header">
+
+                                    <div class="row">
+                                        <div class="col-md-8"><h4 class="card-title">Modulo Reportes Clientes POS</h4></div>
+
+
+                                        <div class="col-md-1"><input type="image" id="Excel" value="Excel" name="Control" src="~/Recursos/IconoExcel.png" /></div>
+
+                                        <div class="col-md-3"><input type="submit" value="Consultar" name="Control" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonConsultar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" class="form-control btn" /></div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-2"> <strong>Fecha Inicio</strong><input class="form-control" type="date" name="FechaInicio" value="@FechaInicio" /></div>
+                                        <div class="col-md-2"> <strong>Fecha Fin</strong><input class="form-control" type="date" name="FechaFin" value="@FechaFin" /></div>
+
+                                        <div class="col-md-2">
+                                            <strong>Tienda</strong>
+                                            <select tabindex="7" id="RowIdTienda" name="RowIdTienda" class="form-control">
+                                                @foreach (var ListadoTienda in (List<SelectListItem>)ViewBag.ListadoTiendas)
+                                                {
+                                                    <option value="@ListadoTienda.Value" @(ListadoTienda.Selected ? "selected" : "")>
+                                                        @ListadoTienda.Text
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <strong>Ciudad</strong>
+                                            <select tabindex="7" id="RowIdCiudad" name="RowIdCiudad" class="form-control">
+                                                @foreach (var ListadoCiudad in (List<SelectListItem>)ViewBag.ListadoCiudades)
+                                                {
+                                                    <option value="@ListadoCiudad.Value" @(ListadoCiudad.Selected ? "selected" : "")>
+                                                        @ListadoCiudad.Text
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <strong>Genero</strong>
+                                            <select tabindex="7" id="RowIdSexo" name="RowIdSexo" class="form-control">
+                                                @foreach (var ListadoSexo in (List<SelectListItem>)ViewBag.ListadoSexo)
+                                                {
+                                                    <option value="@ListadoSexo.Value" @(ListadoSexo.Selected ? "selected" : "")>
+                                                        @ListadoSexo.Text
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <strong>Estado</strong>
+                                            <select tabindex="7" id="RowIdEstado" name="RowIdEstado" class="form-control">
+                                                @foreach (var ListadoEstado in (List<SelectListItem>)ViewBag.ListadoEstados)
+                                                {
+                                                    <option value="@ListadoEstado.Value" @(ListadoEstado.Selected ? "selected" : "")>
+                                                        @ListadoEstado.Text
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="basic-datatables" class="display table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                @foreach (DataColumn item in Model.Tables[0].Columns)
+                                                {
+                                                    if (Contador > 0)
+                                                    {
+                                                        <th>@item.ColumnName.ToString()</th>
+                                                    }
+                                                    Contador++;
+                                                }
+                                            </tr>
+                                        </thead>
+
+                                        <tfoot>
+                                            @if (Model.Tables[0].Rows.Count >= 5)
+                                            {
+                                                Contador = 0;
+                                                <tr>
+                                                    @foreach (DataColumn item in Model.Tables[0].Columns)
+                                                    {
+                                                        if (Contador > 0)
+                                                        {
+                                                            <th>@item.ColumnName.ToString()</th>
+                                                        }
+                                                        Contador++;
+                                                    }
+                                                </tr>
+                                            }
+                                        </tfoot>
+                                        <tbody>
+                                            @foreach (DataRow row in Model.Tables[0].Rows)
+                                            {
+                                                Contador = 0;
+                                                <tr>
+                                                    @foreach (DataColumn item in Model.Tables[0].Columns)
+                                                    {
+                                                        if (Contador > 0)
+                                                        {
+                                                            <td>@row[item.ColumnName.ToString()]</td>
+                                                        }
+                                                        Contador++;
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="copyright ml-auto">
+                2019, Hecho <i class="fa fa-helicopter"></i> Por <a href="http://generictransfer.com/">Interfaces Y Soluciones</a>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="~/Content/assets/js/core/popper.min.js"></script>
+<script src="~/Content/assets/js/core/bootstrap.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/js/atlantis.min.js"></script>
+
+<script>
+    
+    $(document).ready(function () {
+
+        $('#basic-datatables').DataTable({
+        });
+
+        $('#multi-filter-select').DataTable({
+            "pageLength": 5,
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+
+        $('#add-row').DataTable({
+            "pageLength": 5,
+        });
+
+        var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $('#addRowButton').click(function () {
+            $('#add-row').dataTable().fnAddData([
+                $("#addName").val(),
+                $("#addPosition").val(),
+                $("#addOffice").val(),
+                action
+            ]);
+            $('#addRowModal').modal('hide');
+
+        });
+    });
+</script>
+

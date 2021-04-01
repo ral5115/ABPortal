@@ -1,0 +1,262 @@
+﻿
+@model Dominio.Modelos.ModeloClientesPos
+
+@using System.Data
+@using Newtonsoft.Json;
+
+@{
+    DataSet DatosImportantes = JsonConvert.DeserializeObject<DataSet>(Session["DatosImportantes"].ToString());
+    string Fondo = DatosImportantes.Tables[0].Rows[0]["EP_ColorFondoCentral"].ToString();
+
+    if (DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() != string.Empty)
+    {
+        Fondo = "background-image:url('" + DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() + "'); background-size: cover";
+    }
+}
+
+<fieldset>
+    <form method="post" action="@Url.Action("Create", "ClientesPos")">
+
+        <div class="main-panel">
+            <div class="content">
+                <div class="card">
+                    <div class="card-body" style="@Fondo">
+                        <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+                            <div class="tab-pane fade show active" id="Crear-Usuarios" role="tabpanel" aria-labelledby="pills-home-tab-icon">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+
+                                                @Html.HiddenFor(x => x.RowId)
+
+                                                <div class="row">
+                                                    <div class="col-md-4 card-title">Adicionar Clientes</div>
+                                                    <div class="col-md-2 ">
+                                                        <input tabindex="10" type="button" value="Consultar" class="btn"
+                                                               style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonConsultar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()"
+                                                               onclick="location.href = '@Url.Action("Consult", "ClientesPos")?Campos='
+                                                           + document.getElementById('Campos').value + '|'
+                                                           + document.getElementById('Apellido1').value + '|'
+                                                           + document.getElementById('Apellido2').value + '|'
+                                                           + document.getElementById('Nombre1').value + '|'
+                                                           + document.getElementById('Nombre2').value + '|'
+                                                           + document.getElementById('RowIdSexo').value + '|'
+                                                           + document.getElementById('FechaNacimiento').value + '|'
+                                                           + document.getElementById('RH').value" />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input tabindex="18" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonInsertar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" type="submit" class="btn btn-primary" value="Crear / Actuallizar" />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input tabindex="19" type="button" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonRegresar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" class="btn" value="Regresar" onclick="location.href='@Url.Action("Index", "ClientesPos")'" />
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input tabindex="20" type="button" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonInsertar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" class="btn" value="Limpiar" onclick="location.href='@Url.Action("Create", "ClientesPos")'" />
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12"><a style="color:red">@Session["Respuesta"].ToString()</a></div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Tipo Documento</label>
+                                                        <select tabindex="1" id="RowIdTipoDocumento" name="RowIdTipoDocumento" class="form-control" required="required">
+                                                            @foreach (var ListadoTipoDocumentos in (List<SelectListItem>)ViewBag.ListadoTipoDocumentos)
+                                                            {
+                                                                <option value="@ListadoTipoDocumentos.Value" @(ListadoTipoDocumentos.Selected ? "selected" : "")>
+                                                                    @ListadoTipoDocumentos.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Documento</label>
+                                                        @Html.EditorFor(model => model.Documento, new { htmlAttributes = new { @id = "Campos", @class = "form-control", @type = "number", @max = "999999999999999", @PlaceHolder = "Ingresar Documento", @required = "required", @tabindex = "2" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Primer Apellido</label>
+                                                        @Html.EditorFor(model => model.Apellido1, new { htmlAttributes = new { @id = "Apellido1", @class = "form-control", @pattern = "[A-Za-z ]+", @maxlength = 20, @PlaceHolder = "Ingresar Primer Apellido", @required = "required", @tabindex = "3" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Segundo Apellido</label>
+                                                        @Html.EditorFor(model => model.Apellido2, new { htmlAttributes = new { @id = "Apellido2", @class = "form-control", @pattern = "[A-Za-z ]+", @maxlength = 30, @PlaceHolder = "Ingresar Segundo Apellido", @tabindex = "4" }, })
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Primer Nombre</label>
+                                                        @Html.EditorFor(model => model.Nombre1, new { htmlAttributes = new { @id = "Nombre1", @class = "form-control", @pattern = "[A-Za-z ]+", @maxlength = 20, @PlaceHolder = "Ingresar Primer Nombre", @required = "required", @tabindex = "5" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Segundo Nombre</label>
+                                                        @Html.EditorFor(model => model.Nombre2, new { htmlAttributes = new { @id = "Nombre2", @class = "form-control", @pattern = "[A-Za-z ]+", @maxlength = 30, @PlaceHolder = "Ingresar Segundo Nombre", @tabindex = "6" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Sexo</label>
+                                                        <select tabindex="7" id="RowIdSexo" name="RowIdSexo" class="form-control" required="required">
+                                                            @foreach (var ListadoSexo in (List<SelectListItem>)ViewBag.ListadoSexo)
+                                                            {
+                                                                <option value="@ListadoSexo.Value" @(ListadoSexo.Selected ? "selected" : "")>
+                                                                    @ListadoSexo.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Fecha Nacimiento</label>
+                                                        @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @id = "FechaNacimiento", @type="date", @class = "form-control", @PlaceHolder = "Ingresar Fecha Nacimiento", @required = "required", @tabindex = "8" }, })
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>RH</label>
+                                                        @Html.EditorFor(model => model.RH, new { htmlAttributes = new { @id = "RH", @class = "form-control", @maxlength = 30, @PlaceHolder = "Ingresar RH", @tabindex = "9" }, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Celular</label>
+                                                        @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @type = "number", @min = "1111111111", @max = "9999999999", @class = "form-control", @PlaceHolder = "Ingresar Celular", @required = "required" , @tabindex = "11"}, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Correo</label>
+                                                        @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @type = "email", @maxlength = 50, @class = "form-control", @PlaceHolder = "Ingresar Correo", @required = "required" , @tabindex = "12"}, })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Teléfono</label>
+                                                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @type = "number", @min = "1111111", @max = "9999999", @class = "form-control", @PlaceHolder = "Ingresar Telefono" , @tabindex = "13"}, })
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Departamento</label>
+                                                        <select tabindex="14" id="RowIdDepartamento" name="RowIdDepartamento" class="form-control" required="required">
+                                                            @foreach (var ListadoDepartamentos in (List<SelectListItem>)ViewBag.ListadoDepartamentos)
+                                                            {
+                                                                <option value="@ListadoDepartamentos.Value" @(ListadoDepartamentos.Selected ? "selected" : "")>
+                                                                    @ListadoDepartamentos.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Ciudad</label>
+                                                        <select tabindex="15" id="RowIdCiudad" name="RowIdCiudad" class="form-control" required="required">
+                                                            @foreach (var ListadoCiudades in (List<SelectListItem>)ViewBag.ListadoCiudades)
+                                                            {
+                                                                <option value="@ListadoCiudades.Value" @(ListadoCiudades.Selected ? "selected" : "")>
+                                                                    @ListadoCiudades.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Dirección</label>
+                                                        @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control", @maxlength = 120, @PlaceHolder = "Ingresar Dirección", @tabindex = "16" }, })
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label style="color">Habeas Data</label>
+                                                        @Html.EditorFor(model => model.HabeasData, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @tabindex = "17" }, })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-action">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="copyright ml-auto">
+                            2019, Hecho <i class="fa fa-helicopter"></i> Por <a href="http://generictransfer.com/">Interfaces Y Soluciones</a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+<script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="~/Content/assets/js/core/popper.min.js"></script>
+<script src="~/Content/assets/js/core/bootstrap.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="~/Content/assets/js/plugin/chart.js/chart.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<script src="~/Content/assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+<script src="~/Content/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+<script src="~/Content/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script src="~/Content/assets/js/atlantis.min.js"></script>
+<script src="~/Content/assets/js/setting-demo.js"></script>
+<script src="~/Content/assets/js/demo.js"></script>
+<script src="~/Content/assets/js/plugin/webfont/webfont.min.js"></script>
+<script>
+        WebFont.load({
+            google: { "families": ["Lato:300,400,700,900"] },
+            custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../../assets/css/fonts.min.css'] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+
+        $(document).ready(function () {
+
+            $("#RowIdDepartamento").change(function () {
+                $("#RowIdCiudad").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCities")',
+                    dataType: 'json',
+
+                    data: { RowId: $("#RowIdDepartamento").val() },
+
+
+                    success: function (states) {
+
+
+                        $.each(states, function (i, state) {
+                            $("#RowIdCiudad").append('<option value="' + state.Value + '">' +
+                                 state.Text + '</option>');
+
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve country states.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+
+    
+      function Proceso() {
+
+            if (document.getElementById("Cargando").style.visibility == "visible")
+                document.getElementById("Cargando").style.visibility = "hidden";
+            else
+                document.getElementById("Cargando").style.visibility = "visible";
+
+        }
+
+        window.onbeforeunload = function (e) {
+            Proceso();
+        };
+</script>
+
+

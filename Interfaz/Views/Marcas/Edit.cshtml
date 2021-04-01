@@ -1,0 +1,112 @@
+﻿
+@model Dominio.Modelos.ModeloMarca
+
+@using System.Data
+@using Newtonsoft.Json;
+
+@{
+    DataSet DatosImportantes = JsonConvert.DeserializeObject<DataSet>(Session["DatosImportantes"].ToString());
+    string Fondo = DatosImportantes.Tables[0].Rows[0]["EP_ColorFondoCentral"].ToString();
+
+    if (DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() != string.Empty)
+    {
+        Fondo = "background-image:url('" + DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() + "'); background-size: cover";
+    }
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="main-panel">
+            <div class="content">
+                <div class="card">
+                    <div class="card-body" style="@Fondo">
+                        <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+                            <div class="tab-pane fade show active" id="Crear-Usuarios" role="tabpanel" aria-labelledby="pills-home-tab-icon">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="card-title">Actualizar Marcas</div>
+                                            </div>
+                                            <div class="card-body">
+                                                @Html.HiddenFor(x => x.RowId)
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="CrearDocumento">Codigo Siesa</label>
+                                                        @Html.EditorFor(model => model.CodigoSiesa, new { htmlAttributes = new { @class = "form-control", required = "required", @PlaceHolder = "Ingresar Codigo Siesa" }, })
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="CrearUsuario">Codigo Vtex</label>
+                                                        @Html.EditorFor(model => model.CodigoVTEX, new { htmlAttributes = new { @class = "form-control", required = "required", @PlaceHolder = "Ingresar Codigo Vtex" }, })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-action">
+                                                <input id="BtnRegistrarUsuario" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonActualizar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" type="submit" class="btn" value="Actualizar" />
+                                                <input type="button" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonRegresar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" class="btn" value="Regresar" onclick="location.href='@Url.Action("Index", "Marcas")'" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="copyright ml-auto">
+                        2019, Hecho <i class="fa fa-helicopter"></i> Por <a href="http://generictransfer.com/">Interfaces Y Soluciones</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
+        <script src="~/Content/assets/js/core/popper.min.js"></script>
+        <script src="~/Content/assets/js/core/bootstrap.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script src="~/Content/assets/js/plugin/chart.js/chart.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+        <script src="~/Content/assets/js/plugin/chart-circle/circles.min.js"></script>
+        <script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+        <script src="~/Content/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+        <script src="~/Content/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+        <script src="~/Content/assets/js/atlantis.min.js"></script>
+        <script src="~/Content/assets/js/setting-demo.js"></script>
+        <script src="~/Content/assets/js/demo.js"></script>
+    </fieldset>
+
+    <script src="~/Content/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Lato:300,400,700,900"] },
+            custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../../assets/css/fonts.min.css'] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+
+          function Proceso() {
+
+            if (document.getElementById("Cargando").style.visibility == "visible")
+                document.getElementById("Cargando").style.visibility = "hidden";
+            else
+                document.getElementById("Cargando").style.visibility = "visible";
+
+        }
+
+        window.onbeforeunload = function (e) {
+            Proceso();
+        };
+    </script>
+
+}
+
+

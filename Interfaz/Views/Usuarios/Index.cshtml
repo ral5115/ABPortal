@@ -1,0 +1,211 @@
+﻿@using System.Data
+@using Newtonsoft.Json;
+@model DataSet
+
+@{
+    DataSet DatosImportantes = JsonConvert.DeserializeObject<DataSet>(Session["DatosImportantes"].ToString());
+    string Fondo = DatosImportantes.Tables[0].Rows[0]["EP_ColorFondoCentral"].ToString();
+
+    if (DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() != string.Empty)
+    {
+        Fondo = "background-image:url('" + DatosImportantes.Tables[0].Rows[0]["EP_UrlFondo"].ToString() + "'); background-size: cover";
+    }
+
+    var Contador = 0;
+}
+
+<div class="main-panel">
+    <div class="content">
+        <div class="card">
+            <div class="card-body" style="@Fondo">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header row">
+                                <div class="col-md-10"><h4 class="card-title">Modulo Usuarios</h4></div>
+                                <div class="col-md-2"><input id="Button1" type="submit" value="Crear" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonInsertar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" class="form-control btn" onclick="location.href='@Url.Action("Create", "Usuarios")'" /></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="basic-datatables" class="display table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                @foreach (DataColumn item in Model.Tables[0].Columns)
+                                                {
+                                                    if (Contador > 0)
+                                                    {
+                                                        <th>@item.ColumnName.ToString()</th>
+                                                    }
+                                                    Contador++;
+                                                }
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tfoot>
+                                            @if (Model.Tables[0].Rows.Count >= 5)
+                                            {
+                                                Contador = 0;
+                                                <tr>
+                                                    @foreach (DataColumn item in Model.Tables[0].Columns)
+                                                    {
+                                                        if (Contador > 0)
+                                                        {
+                                                            <th>@item.ColumnName.ToString()</th>
+                                                        }
+                                                        Contador++;
+                                                    }
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            }
+                                        </tfoot>
+                                        <tbody>
+                                            @foreach (DataRow row in Model.Tables[0].Rows)
+                                            {
+                                                Contador = 0;
+                                                <tr>
+                                                    @foreach (DataColumn item in Model.Tables[0].Columns)
+                                                    {
+                                                        if (Contador > 0)
+                                                        {
+                                                            <td>@row[item.ColumnName.ToString()]</td>
+                                                        }
+                                                        Contador++;
+                                                    }
+                                                    <td style="text-align:center">
+                                                        <input type="button" value="Editar" class="btn" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonActualizar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" onclick="location.href='@Url.Action("Edit", "Usuarios")?RowId=' +  @row[Model.Tables[0].Columns[0].ToString()]" />
+                                                        <input type="button" value="Eliminar" class="btn" style="@DatosImportantes.Tables[0].Rows[0]["EP_ColorBotonConsultar"].ToString(); @DatosImportantes.Tables[0].Rows[0]["EP_ColorTextoBotones"].ToString()" onclick="Eliminar(@row[Model.Tables[0].Columns[0].ToString()])" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="copyright ml-auto">
+                2019, Hecho <i class="fa fa-helicopter"></i> Por <a href="http://generictransfer.com/">Interfaces Y Soluciones</a>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="~/Content/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="~/Content/assets/js/core/popper.min.js"></script>
+<script src="~/Content/assets/js/core/bootstrap.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="~/Content/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="~/Content/assets/js/plugin/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/js/atlantis.min.js"></script>
+
+<script>
+    function Eliminar(RowId) {
+        swal({
+            title: "Estás seguro?",
+            text: "Una vez eliminado no podras recuperar la información.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((Eliminar) => {
+                if (Eliminar) {
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            RowId: RowId
+                        },
+                        url: "/Usuarios/Delete",
+                        dataType: "json",
+                        success: function (response) {
+                            swal(response, {
+                                icon: "success",
+                            }).then(function () {
+                                window.location.href = "/Usuarios/Index"
+                            });
+
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+
+                }
+                else {
+                    swal("Felicidades, No has eliminado este usuario!");
+                }
+            });
+    }
+
+    $(document).ready(function () {
+        $('#basic-datatables').DataTable({
+        });
+
+        $('#multi-filter-select').DataTable({
+            "pageLength": 5,
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+
+        // Add Row
+        $('#add-row').DataTable({
+            "pageLength": 5,
+        });
+
+        var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $('#addRowButton').click(function () {
+            $('#add-row').dataTable().fnAddData([
+                $("#addName").val(),
+                $("#addPosition").val(),
+                $("#addOffice").val(),
+                action
+            ]);
+            $('#addRowModal').modal('hide');
+
+        });
+    });
+
+    function Proceso() {
+
+        if (document.getElementById("Cargando").style.visibility == "visible")
+            document.getElementById("Cargando").style.visibility = "hidden";
+        else
+            document.getElementById("Cargando").style.visibility = "visible";
+
+    }
+
+    window.onbeforeunload = function (e) {
+        Proceso();
+    };
+</script>
+

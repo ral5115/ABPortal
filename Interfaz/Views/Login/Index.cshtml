@@ -1,0 +1,88 @@
+﻿@using System.Data
+@using Newtonsoft.Json;
+@{
+    Layout = null;
+
+    DataSet DatosCompleto = JsonConvert.DeserializeObject<DataSet>(Session["Estilos"].ToString());
+    string Fondo = DatosCompleto.Tables[0].Rows[0]["EL_FondoPantallaLogin"].ToString();
+
+    if (DatosCompleto.Tables[0].Rows[0]["EL_UrlFondo"].ToString() != string.Empty)
+    {
+        Fondo = "background-image:url('" + DatosCompleto.Tables[0].Rows[0]["EL_UrlFondo"].ToString() + "'); background-size: cover";
+    }
+}
+
+@using (Html.BeginForm())
+
+{
+    <!DOCTYPE html>
+    <fieldset>
+
+        <html xmlns="http://www.w3.org/1999/xhtml">
+
+        <head>
+            <title>Ingreso Portal Genérico</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            @*@Styles.Render("~/ContenidoLogin/css")*@
+
+            <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+            <link href="~/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+            <link href="~/Content/fonts/iconic/css/material-design-iconic-font.min.css" rel="stylesheet" />
+            <link href="~/Content/vendor/animate/animate.css" rel="stylesheet" />
+            <link href="~/Content/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" />
+            <link href="~/Content/vendor/animsition/css/animsition.min.css" rel="stylesheet" />
+            <link href="~/Content/vendor/select2/select2.min.css" rel="stylesheet" />
+            <link href="~/Content/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" />
+            <link href="~/Content/css/util.css" rel="stylesheet" />
+            <link href="~/Content/css/main.css" rel="stylesheet" />
+
+        </head>
+        <body>
+            <div class="limiter">
+                <div class="container-login100" style="@Fondo">
+                    <div class="wrap-login100" style="@DatosCompleto.Tables[0].Rows[0]["EL_FondoLogin"].ToString()">
+                        <form class="login100-form validate-form">
+                            <asp:ScriptManager ID="ScriptManager1"></asp:ScriptManager>
+                            <span class="login100-form-title p-b-26" style="@DatosCompleto.Tables[0].Rows[0]["EL_ColorTextoLogin"].ToString()">
+                                @DatosCompleto.Tables[0].Rows[0]["EL_TextoLogin"].ToString()
+                            </span>
+                            <span class="login100-form-title p-b-48" style="@DatosCompleto.Tables[0].Rows[0]["EL_ColorIconoLogin"].ToString()">
+                                <i class="zmdi zmdi-account-calendar"></i>
+                            </span>
+
+                            <div class="wrap-input100 validate-input" data-validate="Debes ingresar el usuario">
+                                <input id="TbUsuario" name="Usuario" class="input100" type="text" />
+                                <span class="focus-input100" data-placeholder="Usuario"></span>
+                            </div>
+
+                            <div class="wrap-input100 validate-input" data-validate="Debes ingresar la clave">
+                                <span class="btn-show-pass">
+                                    <i class="zmdi zmdi-eye"></i>
+                                </span>
+                                <input id="TbContrasena" name="Clave" class="input100" type="password" />
+                                <span class="focus-input100" data-placeholder="clave"></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" style="text-align:center">
+                                    <a style="color:red">@ViewData["Error"]</a>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-12" style="text-align:center">
+                                    <input id="BtIngregar" style="@DatosCompleto.Tables[0].Rows[0]["EL_ColorBotonLogin"].ToString() ; @DatosCompleto.Tables[0].Rows[0]["EL_ColorBotonTextoLogin"].ToString()" type="submit" class="btn-block btn btn-info" value="Ingresar" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @Scripts.Render("~/ContenidoLogin/js")
+        </body>
+    </html>
+</fieldset>
+}
