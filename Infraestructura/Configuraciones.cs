@@ -4,7 +4,7 @@
     {
         public static string ConexionPortal = "data source=localhost;initial catalog=Integracion-Coordinadora;user id=sa;password=siesa-123";
 
-        public static string ConexionNacional = "data source=172.17.50.4;initial catalog=Integracion-VTEX;user id=sa;password=Sa123456";
+        public static string ConexionNacional = "data source=localhost;initial catalog=Integracion-VTEX-Portal;user id=sa;password=siesa-123";
 
         public static string ConexionInternacional = "data source=172.17.50.4;initial catalog=Integracion-VTEX-Internacional;user id=sa;password=Sa123456";
 

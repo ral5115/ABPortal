@@ -18,12 +18,15 @@ namespace Dominio.Login
         {
             DataSet DsAutenticacion = _BDLogin.Sp_Admin_Autenticacion(Usuario, Clave);
 
+            //Define informacion dependiendo del cliente
             if (DsAutenticacion.Tables[0].Rows.Count > 0)
             {
+                //arma el html para crear el menu
                 var Menu = _Menu.Obtener((int)DsAutenticacion.Tables[0].Rows[0]["RowId_Perfil"],
                (string)DsAutenticacion.Tables[0].Rows[0]["EP_ColorFondoAdministracion"],
                (string)DsAutenticacion.Tables[0].Rows[0]["EP_ColorFondoAdministracion"]);
 
+                //Controlador donde se dirigira
                 var Accion = (string)DsAutenticacion.Tables[0].Rows[0]["Pagina_Inicial"];
 
                 string[] ArregloAutenticacion = new string[]

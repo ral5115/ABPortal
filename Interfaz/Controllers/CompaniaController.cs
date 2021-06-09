@@ -17,6 +17,7 @@ namespace Interfaz.Controllers
 
             if ((int)Session["Perfil"] == 2)
             {
+                //Consulta datos de la compañia para mostrarlos en la primera pantalla
                 return View(_Compania.Consultar());
             }
 

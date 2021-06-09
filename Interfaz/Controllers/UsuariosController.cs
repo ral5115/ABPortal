@@ -19,6 +19,7 @@ namespace Interfaz.Controllers
 
             if ((int)Session["Perfil"] == 2)
             {
+                //consulta usuarios para devolverlos a la vista
                 return View(_Usuarios.Consultar());
             }
 
@@ -86,6 +87,7 @@ namespace Interfaz.Controllers
 
         private void RecuperarCombo(int RowId)
         {
+            //llena el combobox con informacion
             ViewBag.ListadoPerfiles = _Combos.Obtener("Sp_Admin_Perfiles", _Usuarios.EnviarModelo(RowId).IdPerfil.ToString());
         }
     }

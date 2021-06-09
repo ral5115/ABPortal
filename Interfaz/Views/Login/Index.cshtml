@@ -3,7 +3,9 @@
 @{
     Layout = null;
 
+    //Converto lo consultado en el sp_admin_estilos y lo almaceno
     DataSet DatosCompleto = JsonConvert.DeserializeObject<DataSet>(Session["Estilos"].ToString());
+    //fondo se toma de un campo de los entregados por el sp_admin_estilos
     string Fondo = DatosCompleto.Tables[0].Rows[0]["EL_FondoPantallaLogin"].ToString();
 
     if (DatosCompleto.Tables[0].Rows[0]["EL_UrlFondo"].ToString() != string.Empty)

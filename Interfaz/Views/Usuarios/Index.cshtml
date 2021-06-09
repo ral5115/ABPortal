@@ -30,6 +30,7 @@
                                     <table id="basic-datatables" class="display table table-striped table-hover">
                                         <thead>
                                             <tr>
+                                                @* Se arma los nombres de los campos*@
                                                 @foreach (DataColumn item in Model.Tables[0].Columns)
                                                 {
                                                     if (Contador > 0)
@@ -43,6 +44,7 @@
                                         </thead>
 
                                         <tfoot>
+                                            @* Coloca los nombres de los campos en el footer por si se pasa de 5 registros *@
                                             @if (Model.Tables[0].Rows.Count >= 5)
                                             {
                                                 Contador = 0;
@@ -60,6 +62,7 @@
                                             }
                                         </tfoot>
                                         <tbody>
+                                            @* Adiciona los datos en la tabla *@
                                             @foreach (DataRow row in Model.Tables[0].Rows)
                                             {
                                                 Contador = 0;
@@ -91,9 +94,9 @@
 
     <footer class="footer">
         <div class="container-fluid">
-            <div class="copyright ml-auto">
+            @*<div class="copyright ml-auto">
                 2019, Hecho <i class="fa fa-helicopter"></i> Por <a href="http://generictransfer.com/">Interfaces Y Soluciones</a>
-            </div>
+            </div>*@
         </div>
     </footer>
 </div>

@@ -9,6 +9,7 @@ namespace Dominio.Login
         private readonly BDLogin _BDLogin = new BDLogin();
         public string Obtener(int RowId_Perfil, string ColorBoton, string ColorTextoBoton)
         {
+            //informacion para el menu por usuario, retorna el menu armado en una variable string
             DataSet DsMenu = _BDLogin.Sp_Admin_Menu(RowId_Perfil);
             return CrearMenu(RowId_Perfil, DsMenu, ColorBoton, ColorTextoBoton);
         }
@@ -20,9 +21,10 @@ namespace Dominio.Login
             Menu += "<ul class=\"nav nav-primary\">";
             Menu += "<li id=\"Elemento\" class=\"nav-item active\">";
 
+            //Recorre el menu disponible por usuario para mostrarlo
             foreach (DataRow RegistroMenu in DsMenu.Tables[0].Rows)
             {
-
+                //arma si es admin
                 if (RegistroMenu["Descripcion"].ToString() == "Administracion")
                 {
                     Menu += "<a data-toggle=\"collapse\" href=\"#dashboard\" class=\"collapsed\" aria-expanded=\"false\" style=\"" + ColorBoton + ";" + ColorTextoBoton + "\" > ";
@@ -50,6 +52,7 @@ namespace Dominio.Login
                 }
                 else
                 {
+                    //arma cuando no es admin
                     Contador++;
 
                     if (Contador == 1)

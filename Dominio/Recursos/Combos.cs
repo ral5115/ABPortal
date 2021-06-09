@@ -33,6 +33,7 @@ namespace Dominio.Recursos
             return Item;
         }
 
+        //Trae informacion para llenar el combo
         public List<SelectListItem> Obtener(string NombreProcedimiento, string RowId)
         {
             if (RowId == string.Empty)

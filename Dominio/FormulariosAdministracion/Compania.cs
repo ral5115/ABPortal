@@ -26,6 +26,7 @@ namespace Dominio.FormulariosAdministracion
 
         public ModeloCompania EnviarModelo(int RowId)
         {
+            //informacion del administrador
             DataSet DsGenerico = _BDCompania.Sp_Admin_Compania_Buscar(RowId);
 
             ModeloCompania Modelo = new ModeloCompania();
